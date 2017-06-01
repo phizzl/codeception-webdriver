@@ -1,0 +1,21 @@
+{
+  "name": "phizzl/codeceptionwebdriver",
+  "description": "",
+  "minimum-stability": "dev",
+  "license": "GPL-3.0",
+  "authors": [
+    {
+      "name": "Phillip Schleicher",
+      "email": "the@phizzl.de"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Phizzl\\Codeception\\Modules\\": "src/"
+    }
+  },
+  "require": {
+    "codeception/codeception": "^2.3",
+    "phizzl/browserstackautomateapi": "dev-master"
+  }
+}
