@@ -1,7 +1,7 @@
 {
-  "name": "phizzl/codeceptionwebdriver",
+  "name": "phizzl/codeception-webdriver",
   "description": "",
-  "minimum-stability": "dev",
+  "minimum-stability": "stable",
   "license": "GPL-3.0",
   "authors": [
     {
@@ -16,6 +16,6 @@
   },
   "require": {
     "codeception/codeception": "^2.3",
-    "phizzl/browserstackautomateapi": "dev-master"
+    "phizzl/browserstack-automateapi": "^1.0"
   }
 }
