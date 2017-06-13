@@ -15,9 +15,18 @@ class WebDriver extends \Codeception\Module\WebDriver
     public function _failed(TestInterface $test, $fail)
     {
         parent::_failed($test, $fail);
-        if(isset($this->capabilities['browserstack.user'])){
+
+        if($this->useBrowserStackHub()){
             $this->getBrowserstackApi()->markSessionFailed($this->webDriver->getSessionID());
         }
+    }
+
+    /**
+     * @return bool
+     */
+    private function useBrowserStackHub()
+    {
+        return isset($this->capabilities['browserstack.user']);
     }
 
     /**
