@@ -2,16 +2,15 @@
 
 namespace Phizzl\Codeception\Modules;
 
-
 use Codeception\TestInterface;
 use Phizzl\Browserstack\Api\AutomateApiClient;
 
 class WebDriver extends \Codeception\Module\WebDriver
 {
     /**
-     * @var bool
+     * @var array
      */
-    public static $failed = false;
+    public static $sessionId = [];
 
     /**
      * @param TestInterface $test
@@ -20,10 +19,7 @@ class WebDriver extends \Codeception\Module\WebDriver
     public function _failed(TestInterface $test, $fail)
     {
         parent::_failed($test, $fail);
-
-        if($this->useBrowserStackHub()){
-            static::$failed = true;
-        }
+        static::$sessionId[$this->webDriver->getSessionID()] = $this->webDriver->getSessionID();
     }
 
     /**
@@ -32,9 +28,14 @@ class WebDriver extends \Codeception\Module\WebDriver
     public function _afterSuite()
     {
         parent::_afterSuite();
+
         if($this->useBrowserStackHub()
-            && static::$failed === false){
-            $this->getBrowserstackApi()->markSessionFailed($this->webDriver->getSessionID());
+            && count(static::$sessionId) > 0){
+            $api = $this->getBrowserstackApi();
+            foreach(static::$sessionId as $id) {
+                $this->debug("Mark Browserstack session as failed: {$id}");
+                $api->markSessionFailed($id);
+            }
         }
     }
 
