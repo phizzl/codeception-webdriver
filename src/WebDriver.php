@@ -9,6 +9,11 @@ use Phizzl\Browserstack\Api\AutomateApiClient;
 class WebDriver extends \Codeception\Module\WebDriver
 {
     /**
+     * @var bool
+     */
+    public static $failed = false;
+
+    /**
      * @param TestInterface $test
      * @param \Exception $fail
      */
@@ -17,6 +22,18 @@ class WebDriver extends \Codeception\Module\WebDriver
         parent::_failed($test, $fail);
 
         if($this->useBrowserStackHub()){
+            static::$failed = true;
+        }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function _afterSuite()
+    {
+        parent::_afterSuite();
+        if($this->useBrowserStackHub()
+            && static::$failed === false){
             $this->getBrowserstackApi()->markSessionFailed($this->webDriver->getSessionID());
         }
     }
